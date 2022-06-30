@@ -41,8 +41,7 @@ class MaterialAdmin(SlugAdmin):
         (_('Files'), {
             'classes': ('collapse',),
             'fields': (
-                'image',
-                'thumb_big', 'thumb_medium', 'thumb_small',
+                'preview',
                 'storage', 'storage_name'
             ),
         }),

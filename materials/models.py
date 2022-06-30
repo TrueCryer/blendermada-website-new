@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.utils.translation import gettext as _
+from sorl.thumbnail import ImageField
 
 from users.models import User
 
@@ -36,6 +37,14 @@ class Category(models.Model):
 
 
 class MaterialManager(models.Manager):
+
+    def published(self, **kwargs):
+        return self.filter(draft=False, **kwargs)
+
+
+class MaterialManager(models.Manager):
+
+    use_for_related_fields = True
 
     def published(self, **kwargs):
         return self.filter(draft=False, **kwargs)
@@ -75,21 +84,19 @@ class Material(models.Model):
         _('storage'), upload_to=get_storage_filename, blank=True
     )
     storage_name = models.CharField(_('storage name'), max_length=50)
-    image = models.ImageField(
-        _('original image'), upload_to=get_image_filename, blank=True
-    )
-    thumb_big = models.ImageField(
-        _('preview (big)'), upload_to=get_image_filename, blank=True
-    )
-    thumb_medium = models.ImageField(
-        _('preview (medium)'), upload_to=get_image_filename, blank=True
-    )
-    thumb_small = models.ImageField(
-        _('preview (small)'), upload_to=get_image_filename, blank=True
+    preview = models.ImageField(
+        _('preview'), upload_to=get_image_filename, blank=True
     )
     downloads = models.IntegerField(_('number of downloads'), default=0)
     rating = models.FloatField(_('rating'), default=0)
     votes_count = models.IntegerField(_('number of votes'), default=0)
+
+    objects = MaterialManager()
+
+    class Meta:
+        verbose_name = 'Material'
+        verbose_name_plural = 'Materials'
+        ordering = ['-date']
 
 
 class Vote(models.Model):
