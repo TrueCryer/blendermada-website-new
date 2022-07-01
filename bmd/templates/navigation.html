@@ -1,39 +1,30 @@
 
-<div class="navbar-fixed">
-<nav>
-    <div class="nav-wrapper">
-        <a class="brand-logo" href="/">Blendermada</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li class="divider"></li>
-                <li class=""><a href="/materials"><span class="glyphicon glyphicon-search"></span> Browse materials</a></li>
-                <li class=""><a href="/addon"><span class="glyphicon glyphicon-cog"></span> Add-on</a></li>
-                <li class=""><a href="/blog"><span class="glyphicon glyphicon-pencil"></span> Blog</a></li>
-                <li class=""><a href="/about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-        </ul>
-            <!--<ul id="nav-mobile" class="right hide-on-med-and-down">
-                {% if user.is_authenticated %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ user.username }} <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="/profile"><span class="glyphicon glyphicon-eye-open"></span> My profile</a></li>
-                        <li><a href="/account"><span class="glyphicon glyphicon-home"></span> Account</a></li>
-                        <li><a href="/favorites"><span class="glyphicon glyphicon-star"></span> Favorites</a></li>
-                        <li><a href="/uploads"><span class="glyphicon glyphicon-upload"></span> Upload new material</a></li>
-                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign out</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Sign in</a></li>
-                {% endif %}
-            </ul>-->
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li class="divider"></li>
-                <li class=""><a href="/materials"><span class="glyphicon glyphicon-search"></span> Browse materials</a></li>
-                <li class=""><a href="/addon"><span class="glyphicon glyphicon-cog"></span> Add-on</a></li>
-                <li class=""><a href="/blog"><span class="glyphicon glyphicon-pencil"></span> Blog</a></li>
-                <li class=""><a href="/about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-        </ul>
-    </div>
+<!-- Filler -->
+<nav class="navbar">
+  <div class="container"><a class="navbar-brand" href="/">Filler</a></div>
 </nav>
-</div>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"><div class="container">
+
+  <!-- Brand -->
+  <a class="navbar-brand" href="/">Blendermada</a>
+
+  <!-- COLLAPSE BUTTON -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop" aria-controls="navbarTop" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- NAVBAR -->
+  <div class="collapse navbar-collapse" id="navbarTop">
+    <!-- Left side -->
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="/materials">Browse materials</a></li>
+      <li class="nav-item"><a class="nav-link" href="/addon">Add-on</a></li>
+      <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
+      <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+    </ul>
+
+  </div>
+
+</div></nav>
