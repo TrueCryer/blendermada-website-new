@@ -1,9 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import DetailView
-# Create your views here.
+from django.views.generic import ListView, DetailView
+
 
 from .models import Material
+
+
+class MaterialListView(ListView):
+    queryset = Material.objects.published()
+    template_name = 'materials/list.html'
+    paginate_by = 12
 
 
 class MaterialDetailView(DetailView):
@@ -11,6 +17,7 @@ class MaterialDetailView(DetailView):
     template_name = 'materials/detail.html'
 
 
+"""
 class MaterialDownloadView(DetailView):
     queryset = Material.objects.published()
 
@@ -38,3 +45,4 @@ def vote(request, pk, slug, score):
     return HttpResponseRedirect(reverse(
         'materials:detail', kwargs={'pk': pk, 'slug': slug}))
 # Create your views here.
+"""

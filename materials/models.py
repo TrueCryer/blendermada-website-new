@@ -2,6 +2,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from sorl.thumbnail import ImageField
 
@@ -38,12 +39,6 @@ class Category(models.Model):
 
 class MaterialManager(models.Manager):
 
-    def published(self, **kwargs):
-        return self.filter(draft=False, **kwargs)
-
-
-class MaterialManager(models.Manager):
-
     use_for_related_fields = True
 
     def published(self, **kwargs):
@@ -62,7 +57,8 @@ class Material(models.Model):
         ('int', 'Blender Internal'),
     )
 
-    engine = models.CharField(_('render engine'), max_length=3, choices=ENGINES)
+    engine = models.CharField(
+        _('render engine'), max_length=3, choices=ENGINES)
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
@@ -84,7 +80,7 @@ class Material(models.Model):
         _('storage'), upload_to=get_storage_filename, blank=True
     )
     storage_name = models.CharField(_('storage name'), max_length=50)
-    preview = models.ImageField(
+    preview = ImageField(
         _('preview'), upload_to=get_image_filename, blank=True
     )
     downloads = models.IntegerField(_('number of downloads'), default=0)
@@ -97,6 +93,12 @@ class Material(models.Model):
         verbose_name = 'Material'
         verbose_name_plural = 'Materials'
         ordering = ['-date']
+
+    def get_absolute_url(self):
+        return reverse('materials:detail', kwargs={
+            'pk': self.pk,
+            'slug': self.slug,
+        })
 
 
 class Vote(models.Model):
