@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from sorl.thumbnail import ImageField
 
@@ -34,7 +35,7 @@ class Category(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class MaterialManager(models.Manager):
@@ -60,19 +61,15 @@ class Material(models.Model):
     engine = models.CharField(
         _('render engine'), max_length=3, choices=ENGINES)
     category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        related_name='materials',
-        blank=True, null=True,
+        Category, related_name='materials',
+        on_delete=models.SET_NULL, blank=True, null=True,
     )
     name = models.CharField(_('name'), max_length=20)
     slug = models.SlugField(_('slug'))
     description = models.TextField(_('description'), blank=True)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        related_name='materials',
-        blank=True, null=True,
+    author = models.ForeignKey(
+        User, related_name='materials',
+        on_delete=models.SET_NULL, blank=True, null=True,
     )
     date = models.DateTimeField(_('date'), auto_now_add=True)
     draft = models.BooleanField(_('draft'), default=True)
@@ -94,11 +91,25 @@ class Material(models.Model):
         verbose_name_plural = 'Materials'
         ordering = ['-date']
 
+    def __str__(self):
+        return f'{self.category} - {self.name}'
+
     def get_absolute_url(self):
         return reverse('materials:detail', kwargs={
             'pk': self.pk,
             'slug': self.slug,
         })
+
+    def get_download_url(self):
+        return reverse('materials:download', kwargs={
+            'pk': self.pk,
+            'slug': self.slug,
+        })
+
+    def save(self, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(**kwargs)
 
 
 class Vote(models.Model):
@@ -108,7 +119,7 @@ class Vote(models.Model):
         on_delete=models.CASCADE,
         related_name='votes',
     )
-    user = models.ForeignKey(
+    voter = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         related_name='votes',
@@ -122,7 +133,7 @@ class Vote(models.Model):
         verbose_name = _('vote')
         verbose_name_plural = _('votes')
         ordering = ['-modified_at']
-        unique_together = ('material', 'user')
+        unique_together = ('material', 'voter')
 
     def __str__(self):
-        return f"{self.user} - {self.material}"
+        return f"{self.voter} - {self.material} - {self.score}"

@@ -19,7 +19,7 @@ class SlugAdmin(admin.ModelAdmin):
 @admin.register(Material)
 class MaterialAdmin(SlugAdmin):
     list_display = (
-        'name', 'pk', 'category', 'engine', 'user', 'date',
+        'name', 'pk', 'category', 'engine', 'author', 'date',
         'storage_name', 'downloads'
     )
     list_filter = ('engine', 'category')
